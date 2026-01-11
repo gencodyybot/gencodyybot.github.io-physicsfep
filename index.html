@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPH4U: Muon Proper Lifetime Lab</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+    <body class="min-h-screen flex flex-col">
+
+        <header class="p-6 bg-slate-900 border-b border-slate-800 flex justify-between items-center">
+            <div>
+                <h1 class="text-2xl font-bold text-white tracking-tight">SPH4U Physics Lab</h1>
+                <p class="text-slate-400 text-sm">Determining Proper Lifetime (tₒ) via Linearization</p>
+            </div>
+            <div class="text-right">
+                <span class="text-xs text-slate-500 uppercase font-bold tracking-widest block">Lab Protocol</span>
+                <span class="text-sky-400 font-mono">Δt = (tₒ)(γ)</span>
+            </div>
+        </header>
+
+        <main class="flex-1 flex flex-col lg:flex-row p-6 gap-6">
+            <div class="lg:w-1/3 flex flex-col gap-6">
+                <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800 shadow-xl">
+                    <label class="block text-sky-400 text-xs font-bold uppercase tracking-wider mb-4">Independent Variable: Velocity</label>
+                    <div class="flex justify-between items-end mb-4">
+                        <span class="text-4xl font-bold mono" id="v-display">0.990</span>
+                        <span class="text-xl text-slate-500 mono mb-1">c</span>
+                    </div>
+                    <input type="range" id="v-slider" min="0.500" max="0.999" step="0.001" value="0.990" class="mb-6">
+                    
+                    <div class="grid grid-cols-2 gap-4 py-4 border-t border-slate-800">
+                        <div>
+                            <span class="text-slate-500 text-xs block uppercase">Lorentz Factor</span>
+                            <span class="text-xl font-bold text-white mono" id="gamma-display">7.09</span>
+                        </div>
+                        <div class="text-right">
+                            <span class="text-slate-500 text-xs block uppercase">Rel. Speed</span>
+                            <span class="text-sm text-slate-300 mono" id="ms-display">2.97e8 m/s</span>
+                        </div>
+                    </div>
+
+                    <button id="fire-btn" class="w-full bg-sky-500 hover:bg-sky-400 text-white font-bold py-4 rounded-xl transition-all shadow-lg shadow-sky-500/20 active:scale-95 flex justify-center items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                        Fire Single Muon
+                    </button>
+                </div>
+
+                <div class="bg-slate-900/50 p-6 rounded-2xl border border-slate-800">
+                    <h3 class="text-sm font-bold text-slate-300 uppercase mb-3">Lab Analysis Guide</h3>
+                    <ul class="text-xs text-slate-400 space-y-3">
+                        <li class="flex gap-2"><span class="text-sky-500 font-bold">1.</span> Capture multiple trials at different velocities.</li>
+                        <li class="flex gap-2"><span class="text-sky-500 font-bold">2.</span> Plot <strong>Dilated Time (Δt)</strong>on Y-axis.</li>
+                        <li class="flex gap-2"><span class="text-sky-500 font-bold">3.</span> Plot <strong>Lorentz Factor (γ)</strong>on X-axis.</li>
+                        <li class="flex gap-2"><span class="text-sky-500 font-bold">4.</span> The slope of your line is the <strong>Proper Lifetime (tₒ)</strong>.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="lg:w-2/3 flex flex-col gap-6">
+                <div class="bg-slate-900 rounded-2xl border border-slate-800 overflow-hidden flex flex-col shadow-2xl">
+                    <div class="sky-container w-full" id="sim-view">
+                        <div class="absolute top-4 left-4 text-slate-600 text-xs uppercase tracking-widest font-bold">Start</div>
+                        <div class="absolute bottom-4 left-4 text-green-700 text-xs uppercase tracking-widest font-bold">End of Lifetime</div>
+                        
+                        <div class="absolute top-4 right-4 bg-black/60 backdrop-blur-md p-4 rounded-lg border border-white/10 flex flex-col items-end">
+                            <span class="text-[10px] text-slate-500 uppercase mb-1">Measured Lifetime</span>
+                            <div class="flex items-baseline gap-2">
+                                <span class="text-3xl font-bold mono text-emerald-400" id="live-timer">0.00</span>
+                                <span class="text-sm text-slate-400 font-mono">μs</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-slate-900 rounded-2xl border border-slate-800 flex-1 overflow-hidden flex flex-col shadow-xl">
+                    <div class="p-4 border-b border-slate-800 flex justify-between items-center">
+                        <h3 class="font-bold text-slate-200">Experimental Data Table</h3>
+                        <button id="clear-table" class="text-xs text-slate-500 hover:text-red-400 transition-colors uppercase font-bold tracking-tighter">Clear All Trials</button>
+                    </div>
+                    <div class="overflow-y-auto flex-1">
+                        <table class="w-full text-sm text-left">
+                            <thead class="bg-slate-800/50 text-slate-400 sticky top-0">
+                                <tr>
+                                    <th class="p-4 font-semibold text-xs">TRIAL</th>
+                                    <th class="p-4 font-semibold text-xs">VELOCITY (v/c)</th>
+                                    <th class="p-4 font-semibold text-xs text-sky-400">LORENTZ FACTOR (γ)</th>
+                                    <th class="p-4 font-semibold text-xs text-emerald-400">DILATED TIME (Δt) [μs]</th>
+                                </tr>
+                            </thead>
+                            <tbody id="data-log" class="divide-y divide-slate-800"></tbody>
+                        </table>
+                        <div id="empty-msg" class="p-12 text-center text-slate-600 italic">No trials recorded yet.</div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <script src="script.js"></script>
+    </body>
+</html>
