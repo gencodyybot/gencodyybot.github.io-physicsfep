@@ -9,7 +9,6 @@
             function init() {
                 const slider = document.getElementById('v-slider');
                 const vDisplay = document.getElementById('v-display');
-                const gammaDisplay = document.getElementById('gamma-display');
                 const msDisplay = document.getElementById('ms-display');
                 const fireBtn = document.getElementById('fire-btn');
                 const simView = document.getElementById('sim-view');
