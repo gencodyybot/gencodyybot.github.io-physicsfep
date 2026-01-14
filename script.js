@@ -29,7 +29,6 @@
                     const v = parseFloat(slider.value);
                     const gamma = getGamma(v);
                     vDisplay.textContent = v.toFixed(3);
-                    gammaDisplay.textContent = gamma.toFixed(2);
                     msDisplay.textContent = (v * C).toExponential(2) + " m/s";
                 }
 
