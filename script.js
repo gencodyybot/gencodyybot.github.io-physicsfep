@@ -33,18 +33,20 @@
                 }
 
                 function addTrial(v, gamma, dt) {
-                    trialCount++;
-                    emptyMsg.style.display = 'none';
-                    const row = document.createElement('tr');
-                    row.className = 'hover:bg-slate-800/30';
-                    row.innerHTML = `
-                        <td class="p-4 font-mono text-slate-500">${trialCount}</td>
-                        <td class="p-4 font-mono text-slate-300">${v.toFixed(3)}</td>
-                        <td class="p-4 font-mono text-sky-400 font-bold">${gamma.toFixed(2)}</td>
-                        <td class="p-4 font-mono text-emerald-400 font-bold">${dt.toFixed(3)}</td>
-                    `;
-                    dataLog.prepend(row);
-                }
+                            trialCount++;
+                            emptyMsg.style.display = 'none';
+                        
+                            const row = document.createElement('tr');
+                            row.className = 'hover:bg-slate-800/30';
+                            row.innerHTML = `
+                                <td class="p-4 font-mono text-slate-500">${trialCount}</td>
+                                <td class="p-4 font-mono text-slate-300">${v.toFixed(3)}</td>
+                                <td class="p-4 font-mono text-slate-600 italic text-xs">? (To be calculated)</td>
+                                <td class="p-4 font-mono text-emerald-400 font-bold">${dt.toFixed(3)}</td>
+                            `;
+                            dataLog.prepend(row);
+                        }
+
 
                 function fire() {
                     if (isSimulating) return;
